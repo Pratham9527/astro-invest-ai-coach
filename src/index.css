@@ -1,86 +1,85 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 20 14% 4%;
+    --background: 240 36% 4%;
     --foreground: 0 0% 98%;
 
-    --card: 24 14% 10%;
+    --card: 240 24% 10%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 24 14% 10%;
+    --popover: 240 24% 10%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 20 100% 50%;
+    --primary: 262 52% 54%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 5% 14%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 199 84% 57%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 240 5% 16%;
+    --muted: 240 24% 16%;
     --muted-foreground: 240 5% 64.9%;
 
-    --accent: 20 100% 50%;
+    --accent: 240 24% 16%;
     --accent-foreground: 0 0% 98%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 5% 16%;
-    --input: 240 5% 16%;
-    --ring: 20 100% 50%;
-    --radius: 0.5rem;
+    --border: 240 24% 16%;
+    --input: 240 24% 16%;
+    --ring: 262 52% 54%;
+    --radius: 0.75rem;
 
-    --sidebar-background: 240 10% 8%;
+    --sidebar-background: 240 24% 8%;
     --sidebar-foreground: 0 0% 90%;
-    --sidebar-primary: 20 100% 50%;
+    --sidebar-primary: 262 52% 54%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 5% 12%;
+    --sidebar-accent: 240 24% 12%;
     --sidebar-accent-foreground: 0 0% 90%;
-    --sidebar-border: 240 5% 12%;
-    --sidebar-ring: 20 100% 50%;
+    --sidebar-border: 240 24% 12%;
+    --sidebar-ring: 262 52% 54%;
   }
 
   .light {
     --background: 0 0% 98%;
-    --foreground: 240 10% 10%;
+    --foreground: 240 24% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 10%;
+    --card-foreground: 240 24% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 10%;
+    --popover-foreground: 240 24% 10%;
 
-    --primary: 20 100% 50%;
+    --primary: 262 52% 54%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 240 10% 10%;
+    --secondary: 199 84% 57%;
+    --secondary-foreground: 0 0% 100%;
 
     --muted: 0 0% 94%;
     --muted-foreground: 240 5% 45%;
 
-    --accent: 20 100% 50%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 0 0% 94%;
+    --accent-foreground: 240 24% 10%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
     --border: 0 0% 90%;
     --input: 0 0% 90%;
-    --ring: 20 100% 50%;
+    --ring: 262 52% 54%;
 
     --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 10% 10%;
-    --sidebar-primary: 20 100% 50%;
+    --sidebar-foreground: 240 24% 10%;
+    --sidebar-primary: 262 52% 54%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 0 0% 94%;
-    --sidebar-accent-foreground: 240 10% 10%;
+    --sidebar-accent-foreground: 240 24% 10%;
     --sidebar-border: 0 0% 90%;
-    --sidebar-ring: 20 100% 50%;
+    --sidebar-ring: 262 52% 54%;
   }
 }
 
@@ -105,7 +104,7 @@
   }
   
   .text-gradient {
-    @apply bg-gradient-to-r from-primary via-primary to-primary/80 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-primary via-secondary to-astro-gold bg-clip-text text-transparent;
   }
   
   .bg-animate {
@@ -120,17 +119,5 @@
   
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
-  }
-
-  .crypto-card {
-    @apply bg-secondary rounded-xl p-5 border border-border/40;
-  }
-
-  .crypto-button {
-    @apply bg-primary hover:bg-primary/90 text-white font-medium px-5 py-2 rounded-md transition-colors;
-  }
-
-  .feature-card {
-    @apply bg-secondary/50 rounded-xl p-5 border border-border/40 hover:border-primary/50 transition-all duration-300;
   }
 }
