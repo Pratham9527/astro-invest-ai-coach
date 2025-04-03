@@ -27,13 +27,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/theme/ModeToggle";
 import { useToast } from '@/hooks/use-toast';
+import { motion } from 'framer-motion';
 
 interface AppLayoutProps {
   children: React.ReactNode;
 }
 
 const menuItems = [
-  { icon: Home, label: "Dashboard", path: "/" },
+  { icon: Home, label: "Dashboard", path: "/dashboard" },
   { icon: MessageSquare, label: "AI Coach", path: "/coach" },
   { icon: TrendingUp, label: "Markets", path: "/markets" },
   { icon: LineChart, label: "Portfolio", path: "/portfolio" },
@@ -47,16 +48,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const { toast } = useToast();
 
   const handleNavigation = (path: string) => {
-    if (path === '/') {
-      navigate(path);
-    } else {
-      // For now, show a toast for routes that don't have full pages yet
-      toast({
-        title: "Coming Soon",
-        description: `The ${path.replace('/', '')} page is under development.`,
-        duration: 3000,
-      });
-    }
+    navigate(path);
   };
 
   const handleLogout = () => {
@@ -66,6 +58,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       duration: 3000,
     });
     // In a real app, this would clear auth tokens, etc.
+    navigate('/');
   };
 
   const handleHelp = () => {
@@ -81,7 +74,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       <div className="min-h-screen flex w-full overflow-hidden">
         <Sidebar className="border-r border-border/40">
           <SidebarHeader className="p-4">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
               <div className="w-8 h-8 rounded-full bg-button-gradient animate-pulse-slow"></div>
               <h1 className="text-xl font-bold text-gradient">Astro<span className="text-foreground">Invest</span></h1>
             </div>
@@ -130,7 +123,15 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
           </SidebarFooter>
         </Sidebar>
         <main className="flex-1 overflow-auto scrollbar-hide">
-          {children}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full"
+          >
+            {children}
+          </motion.div>
         </main>
       </div>
     </SidebarProvider>

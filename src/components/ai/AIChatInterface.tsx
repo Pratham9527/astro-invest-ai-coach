@@ -1,11 +1,12 @@
 
-import React, { useState } from "react";
-import { SendHorizonal, Bot, User, Sparkles, AlertCircle, CheckCircle2 } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import { SendHorizonal, Bot, User, Sparkles, AlertCircle, CheckCircle2, BarChart2, TrendingUp, AlertTriangle, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { AnimatedCard } from "@/components/ui/animated-card";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 interface Message {
   id: string;
@@ -13,7 +14,37 @@ interface Message {
   text: string;
   confidenceScore?: number;
   time: string;
+  isTyping?: boolean;
 }
+
+interface QuickAction {
+  icon: React.ElementType;
+  label: string;
+  prompt: string;
+}
+
+const quickActions: QuickAction[] = [
+  { 
+    icon: BarChart2, 
+    label: "Market Overview", 
+    prompt: "Give me a quick overview of the current market conditions and trends." 
+  },
+  { 
+    icon: TrendingUp, 
+    label: "Investment Strategy", 
+    prompt: "What investment strategy would you recommend for a moderate risk tolerance?" 
+  },
+  { 
+    icon: AlertTriangle, 
+    label: "Risk Analysis", 
+    prompt: "Can you analyze the risks in my current portfolio and suggest improvements?" 
+  },
+  { 
+    icon: Lightbulb, 
+    label: "Investment Tips", 
+    prompt: "What are some investment tips for a beginner?" 
+  },
+];
 
 const initMessages: Message[] = [
   {
@@ -28,22 +59,33 @@ const AIChatInterface: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>(initMessages);
   const [input, setInput] = useState("");
   const [isThinking, setIsThinking] = useState(false);
+  const [displayText, setDisplayText] = useState("");
+  const [messageIndex, setMessageIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   const formatTime = () => new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
-  const handleSendMessage = () => {
-    if (!input.trim()) return;
+  const handleSendMessage = (messageText: string = input) => {
+    if (!messageText.trim()) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
       sender: "user",
-      text: input,
+      text: messageText,
       time: formatTime(),
     };
 
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsThinking(true);
+
+    // Automatically scroll to bottom
+    setTimeout(() => {
+      if (scrollAreaRef.current) {
+        scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+      }
+    }, 100);
 
     // Simulate AI response with delay
     setTimeout(() => {
@@ -60,6 +102,14 @@ const AIChatInterface: React.FC = () => {
           text: "The current market volatility suggests maintaining liquidity. Consider dollar-cost averaging into the market rather than investing a lump sum all at once.",
           confidenceScore: 78,
         },
+        {
+          text: "If you're interested in sustainable investing, there are several ESG (Environmental, Social, Governance) focused ETFs that have shown competitive returns compared to traditional investments.",
+          confidenceScore: 85,
+        },
+        {
+          text: "I've analyzed your query, and I'd suggest focusing on high-dividend stocks for passive income. Companies with a history of increasing dividends over time often provide stable returns even in volatile markets.",
+          confidenceScore: 90,
+        },
       ];
 
       const randomResponse = mockResponses[Math.floor(Math.random() * mockResponses.length)];
@@ -70,11 +120,56 @@ const AIChatInterface: React.FC = () => {
         text: randomResponse.text,
         confidenceScore: randomResponse.confidenceScore,
         time: formatTime(),
+        isTyping: true,
       };
 
       setMessages((prev) => [...prev, aiMessage]);
+      setDisplayText("");
+      setMessageIndex(messages.length + 1);
+      setCharIndex(0);
       setIsThinking(false);
     }, 2000);
+  };
+
+  // Typing effect
+  useEffect(() => {
+    if (messages.length > 0 && messageIndex < messages.length) {
+      const currentMessage = messages[messageIndex];
+      
+      if (currentMessage.sender === "ai" && currentMessage.isTyping && charIndex < currentMessage.text.length) {
+        const timeout = setTimeout(() => {
+          setDisplayText(prev => prev + currentMessage.text[charIndex]);
+          setCharIndex(charIndex + 1);
+          
+          // Scroll to bottom as text is typing
+          if (scrollAreaRef.current) {
+            scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+          }
+        }, 15); // Speed of typing
+        
+        return () => clearTimeout(timeout);
+      } else if (currentMessage.sender === "ai" && currentMessage.isTyping && charIndex >= currentMessage.text.length) {
+        // Update the message to remove the isTyping flag once typing is complete
+        setMessages(prev => 
+          prev.map((msg, idx) => 
+            idx === messageIndex ? { ...msg, isTyping: false } : msg
+          )
+        );
+        setMessageIndex(messageIndex + 1);
+        setCharIndex(0);
+      }
+    }
+  }, [messages, messageIndex, charIndex]);
+
+  // Auto-scroll to bottom when new messages arrive
+  useEffect(() => {
+    if (scrollAreaRef.current) {
+      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+    }
+  }, [messages]);
+
+  const handleQuickAction = (prompt: string) => {
+    handleSendMessage(prompt);
   };
 
   return (
@@ -87,8 +182,8 @@ const AIChatInterface: React.FC = () => {
       </div>
       
       <ScrollArea className="flex-1 p-4">
-        <div className="flex flex-col gap-4">
-          {messages.map((message) => (
+        <div className="flex flex-col gap-4" ref={scrollAreaRef}>
+          {messages.map((message, index) => (
             <AnimatedCard
               key={message.id}
               className={cn(
@@ -114,8 +209,29 @@ const AIChatInterface: React.FC = () => {
                   )}
                 </div>
                 <div className="flex flex-col gap-1">
-                  <div className="text-sm">{message.text}</div>
-                  {message.confidenceScore && (
+                  <div className="text-sm">
+                    {message.isTyping && index === messageIndex ? displayText : message.text}
+                    {message.isTyping && index === messageIndex && (
+                      <span className="inline-flex ml-1">
+                        <motion.span
+                          animate={{ opacity: [0, 1, 0] }}
+                          transition={{ repeat: Infinity, duration: 1.5 }}
+                          className="rounded-full h-1 w-1 bg-current mx-[1px]"
+                        />
+                        <motion.span
+                          animate={{ opacity: [0, 1, 0] }}
+                          transition={{ repeat: Infinity, duration: 1.5, delay: 0.2 }}
+                          className="rounded-full h-1 w-1 bg-current mx-[1px]"
+                        />
+                        <motion.span
+                          animate={{ opacity: [0, 1, 0] }}
+                          transition={{ repeat: Infinity, duration: 1.5, delay: 0.4 }}
+                          className="rounded-full h-1 w-1 bg-current mx-[1px]"
+                        />
+                      </span>
+                    )}
+                  </div>
+                  {message.confidenceScore && !message.isTyping && (
                     <div className="flex items-center mt-2">
                       <div className="text-xs text-muted-foreground flex items-center gap-1">
                         {message.confidenceScore >= 85 ? (
@@ -152,6 +268,27 @@ const AIChatInterface: React.FC = () => {
         </div>
       </ScrollArea>
       
+      {/* Quick actions */}
+      {messages.length < 3 && (
+        <div className="px-4 py-2">
+          <p className="text-xs text-muted-foreground mb-2">Quick actions:</p>
+          <div className="flex flex-wrap gap-2">
+            {quickActions.map((action) => (
+              <Button
+                key={action.label}
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-1 text-xs"
+                onClick={() => handleQuickAction(action.prompt)}
+              >
+                <action.icon className="h-3 w-3" />
+                {action.label}
+              </Button>
+            ))}
+          </div>
+        </div>
+      )}
+      
       <div className="p-4 border-t border-border/40 mt-auto">
         <div className="flex gap-2">
           <Input
@@ -161,7 +298,7 @@ const AIChatInterface: React.FC = () => {
             onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
             className="bg-card"
           />
-          <Button onClick={handleSendMessage} disabled={isThinking || !input.trim()}>
+          <Button onClick={() => handleSendMessage()} disabled={isThinking || !input.trim()}>
             <SendHorizonal className="h-4 w-4" />
           </Button>
         </div>
