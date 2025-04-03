@@ -6,11 +6,13 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const CtaSection = () => {
   const [investmentGoal, setInvestmentGoal] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
   
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -32,6 +34,11 @@ const CtaSection = () => {
       });
       setIsSubmitting(false);
       setInvestmentGoal("");
+      
+      // Navigate to dashboard after a brief delay
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 1000);
     }, 1500);
   };
   

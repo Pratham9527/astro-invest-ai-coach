@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Sidebar,
   SidebarContent,
@@ -25,6 +26,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/theme/ModeToggle";
+import { useToast } from '@/hooks/use-toast';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -40,6 +42,40 @@ const menuItems = [
 ];
 
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { toast } = useToast();
+
+  const handleNavigation = (path: string) => {
+    if (path === '/') {
+      navigate(path);
+    } else {
+      // For now, show a toast for routes that don't have full pages yet
+      toast({
+        title: "Coming Soon",
+        description: `The ${path.replace('/', '')} page is under development.`,
+        duration: 3000,
+      });
+    }
+  };
+
+  const handleLogout = () => {
+    toast({
+      title: "Logged Out",
+      description: "You have been successfully logged out.",
+      duration: 3000,
+    });
+    // In a real app, this would clear auth tokens, etc.
+  };
+
+  const handleHelp = () => {
+    toast({
+      title: "Help Center",
+      description: "The help center will be available soon.",
+      duration: 3000,
+    });
+  };
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full overflow-hidden">
@@ -57,11 +93,12 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                 <SidebarMenu>
                   {menuItems.map((item) => (
                     <SidebarMenuItem key={item.label}>
-                      <SidebarMenuButton asChild>
-                        <a href={item.path} className="flex items-center gap-3">
-                          <item.icon className="h-5 w-5" />
-                          <span>{item.label}</span>
-                        </a>
+                      <SidebarMenuButton 
+                        onClick={() => handleNavigation(item.path)}
+                        isActive={location.pathname === item.path}
+                      >
+                        <item.icon className="h-5 w-5" />
+                        <span>{item.label}</span>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   ))}
@@ -72,11 +109,11 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
           <SidebarFooter className="p-4 border-t border-border/40">
             <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between">
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" onClick={handleHelp}>
                   <HelpCircle className="h-5 w-5" />
                 </Button>
                 <ModeToggle />
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" onClick={handleLogout}>
                   <LogOut className="h-5 w-5" />
                 </Button>
               </div>

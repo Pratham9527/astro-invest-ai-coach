@@ -4,8 +4,15 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import DashboardPreview from "./DashboardPreview";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
+  const handleStartJourney = () => {
+    navigate("/dashboard");
+  };
+
   return (
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-20 px-6 md:px-10 lg:px-20">
       {/* Background effects */}
@@ -54,7 +61,11 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9, duration: 0.8 }}
           >
-            <Button size="lg" className="bg-button-gradient group relative overflow-hidden shadow-glow">
+            <Button 
+              size="lg" 
+              className="bg-button-gradient group relative overflow-hidden shadow-glow"
+              onClick={handleStartJourney}
+            >
               <span className="relative z-10">Start Your AI-Driven Journey</span>
               <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
               <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
