@@ -31,7 +31,7 @@ const AnimatedCard = React.forwardRef<HTMLDivElement, AnimatedCardProps>(
           "rounded-xl overflow-hidden relative transition-all duration-300",
           glassEffect && "glass-card",
           hoverEffect && "hover:shadow-xl hover:shadow-primary/10",
-          floatAnimation && "animate-float",
+          floatAnimation && "animate-float", // This references the animation defined in tailwind.config.ts
           isHovered && hoverEffect && "scale-[1.02]",
           className
         )}
