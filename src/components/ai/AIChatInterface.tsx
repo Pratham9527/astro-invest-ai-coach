@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import { SendHorizonal, Bot, User, Sparkles, AlertCircle, CheckCircle2, BarChart2, TrendingUp, AlertTriangle, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -91,7 +90,7 @@ const AIChatInterface: React.FC = () => {
     setTimeout(() => {
       const mockResponses = [
         {
-          text: "Based on your risk profile and market conditions, I recommend considering a diversified ETF that tracks the S&P 500. This provides broad market exposure with lower fees than actively managed funds.",
+          text: "Based on your risk profile and market conditions, I recommend considering a diversified ETF that tracks the Nifty 50. This provides broad market exposure with lower fees than actively managed funds.",
           confidenceScore: 92,
         },
         {
@@ -99,7 +98,7 @@ const AIChatInterface: React.FC = () => {
           confidenceScore: 87,
         },
         {
-          text: "The current market volatility suggests maintaining liquidity. Consider dollar-cost averaging into the market rather than investing a lump sum all at once.",
+          text: "The current market volatility suggests maintaining liquidity. Consider rupee-cost averaging into the market rather than investing a lump sum all at once.",
           confidenceScore: 78,
         },
         {
@@ -131,7 +130,6 @@ const AIChatInterface: React.FC = () => {
     }, 2000);
   };
 
-  // Typing effect
   useEffect(() => {
     if (messages.length > 0 && messageIndex < messages.length) {
       const currentMessage = messages[messageIndex];
@@ -161,7 +159,6 @@ const AIChatInterface: React.FC = () => {
     }
   }, [messages, messageIndex, charIndex]);
 
-  // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
     if (scrollAreaRef.current) {
       scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;

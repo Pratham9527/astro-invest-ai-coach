@@ -2,7 +2,16 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { AnimatedCard } from "@/components/ui/animated-card";
-import { TrendingUp, TrendingDown, DollarSign, PieChart, LineChart } from "lucide-react";
+import { TrendingUp, TrendingDown, PieChart, LineChart } from "lucide-react";
+
+// Currency formatter for INR
+const formatCurrency = (amount: number): string => {
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    maximumFractionDigits: 0
+  }).format(amount);
+};
 
 const DashboardPreview = () => {
   return (
@@ -23,9 +32,9 @@ const DashboardPreview = () => {
             >
               <div className="flex items-center justify-between">
                 <div className="text-sm text-muted-foreground">Portfolio Value</div>
-                <DollarSign className="h-4 w-4 text-green-400" />
+                <TrendingUp className="h-4 w-4 text-green-400" />
               </div>
-              <div className="text-2xl font-bold mt-2">$124,567.89</div>
+              <div className="text-2xl font-bold mt-2">{formatCurrency(9342592)}</div>
               <div className="flex items-center text-green-400 text-sm mt-1">
                 <TrendingUp className="h-3 w-3 mr-1" />
                 <span>+5.6%</span>

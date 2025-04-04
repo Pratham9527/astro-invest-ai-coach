@@ -6,6 +6,15 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { ArrowRight, TrendingUp, LineChart, PieChart, Bell } from "lucide-react";
 import { motion } from "framer-motion";
 
+// Currency formatter for INR
+const formatCurrency = (amount: number): string => {
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    maximumFractionDigits: 2
+  }).format(amount);
+};
+
 const Dashboard = () => {
   return (
     <AppLayout>
@@ -44,7 +53,7 @@ const Dashboard = () => {
                 <CardDescription>Current valuation</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold">$86,240.50</div>
+                <div className="text-3xl font-bold">{formatCurrency(6468038)}</div>
                 <div className="text-xs text-green-500 flex items-center mt-1">
                   +2.5% <span className="ml-1 text-muted-foreground">since last week</span>
                 </div>
@@ -132,7 +141,7 @@ const Dashboard = () => {
               </div>
               <div className="p-4 bg-green-500/5 rounded-lg border border-green-500/10">
                 <h3 className="font-medium mb-2">Tax-Loss Harvesting</h3>
-                <p className="text-sm text-muted-foreground">Sell your underperforming energy sector ETF to offset capital gains and reduce your tax liability by an estimated $1,200.</p>
+                <p className="text-sm text-muted-foreground">Sell your underperforming energy sector ETF to offset capital gains and reduce your tax liability by an estimated {formatCurrency(90000)}.</p>
               </div>
               <div className="p-4 bg-blue-500/5 rounded-lg border border-blue-500/10">
                 <h3 className="font-medium mb-2">Market Opportunity Alert</h3>
@@ -163,30 +172,30 @@ const Dashboard = () => {
                 <div className="flex justify-between items-center pb-2 border-b">
                   <div>
                     <div className="font-medium">Purchased APPL</div>
-                    <div className="text-sm text-muted-foreground">10 shares @ $182.30</div>
+                    <div className="text-sm text-muted-foreground">10 shares @ {formatCurrency(13673)}</div>
                   </div>
                   <div className="text-right">
-                    <div className="font-medium">$1,823.00</div>
+                    <div className="font-medium">{formatCurrency(136730)}</div>
                     <div className="text-xs text-muted-foreground">May 15, 2025</div>
                   </div>
                 </div>
                 <div className="flex justify-between items-center pb-2 border-b">
                   <div>
                     <div className="font-medium">Sold MSFT</div>
-                    <div className="text-sm text-muted-foreground">5 shares @ $410.75</div>
+                    <div className="text-sm text-muted-foreground">5 shares @ {formatCurrency(30806)}</div>
                   </div>
                   <div className="text-right">
-                    <div className="font-medium">$2,053.75</div>
+                    <div className="font-medium">{formatCurrency(154030)}</div>
                     <div className="text-xs text-muted-foreground">May 12, 2025</div>
                   </div>
                 </div>
                 <div className="flex justify-between items-center pb-2 border-b">
                   <div>
                     <div className="font-medium">Purchased VTI</div>
-                    <div className="text-sm text-muted-foreground">15 shares @ $254.18</div>
+                    <div className="text-sm text-muted-foreground">15 shares @ {formatCurrency(19064)}</div>
                   </div>
                   <div className="text-right">
-                    <div className="font-medium">$3,812.70</div>
+                    <div className="font-medium">{formatCurrency(285960)}</div>
                     <div className="text-xs text-muted-foreground">May 8, 2025</div>
                   </div>
                 </div>

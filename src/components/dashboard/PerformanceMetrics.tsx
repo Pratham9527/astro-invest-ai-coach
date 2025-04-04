@@ -2,7 +2,16 @@
 import React from "react";
 import { AnimatedCard } from "@/components/ui/animated-card";
 import { cn } from "@/lib/utils";
-import { TrendingUp, TrendingDown, Percent, DollarSign, BarChart3, PieChart } from "lucide-react";
+import { TrendingUp, TrendingDown, Percent, BarChart3, PieChart } from "lucide-react";
+
+// Currency formatter for INR
+const formatCurrency = (amount: number): string => {
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    maximumFractionDigits: 2
+  }).format(amount);
+};
 
 interface MetricProps {
   title: string;
@@ -45,10 +54,10 @@ const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({ className }) =>
     <div className={cn("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4", className)}>
       <Metric
         title="Portfolio Value"
-        value="$24,685.75"
+        value={formatCurrency(1851431.25)}
         change="+5.23% (1m)"
         isPositive={true}
-        icon={<DollarSign className="h-5 w-5 text-primary" />}
+        icon={<TrendingUp className="h-5 w-5 text-primary" />}
       />
       <Metric
         title="Annual Return"

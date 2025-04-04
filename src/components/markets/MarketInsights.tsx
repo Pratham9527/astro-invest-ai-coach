@@ -17,10 +17,10 @@ interface InsightItem {
 const mockInsights: InsightItem[] = [
   {
     id: "1",
-    title: "Fed Signals Rate Cuts",
-    description: "Federal Reserve hints at potential interest rate cuts in the coming months as inflation eases.",
+    title: "RBI Signals Rate Cuts",
+    description: "Reserve Bank of India hints at potential interest rate cuts in the coming months as inflation eases.",
     impact: "positive",
-    source: "Financial Times",
+    source: "Economic Times",
     time: "2h ago",
   },
   {
@@ -28,7 +28,7 @@ const mockInsights: InsightItem[] = [
     title: "Tech Earnings Beat Expectations",
     description: "Major tech companies report quarterly earnings above analyst expectations, driving sector-wide rally.",
     impact: "positive",
-    source: "CNBC",
+    source: "Mint",
     time: "4h ago",
   },
   {
@@ -36,7 +36,7 @@ const mockInsights: InsightItem[] = [
     title: "Oil Prices Surge on Supply Concerns",
     description: "Crude oil prices jump 5% amid geopolitical tensions affecting major supply routes.",
     impact: "negative",
-    source: "Bloomberg",
+    source: "Business Standard",
     time: "6h ago",
   },
   {
@@ -44,7 +44,7 @@ const mockInsights: InsightItem[] = [
     title: "Retail Sales Data Mixed",
     description: "Latest retail sales data shows uneven consumer spending patterns across different sectors.",
     impact: "neutral",
-    source: "Reuters",
+    source: "LiveMint",
     time: "8h ago",
   },
   {
@@ -52,7 +52,7 @@ const mockInsights: InsightItem[] = [
     title: "New AI Regulations Proposed",
     description: "Lawmakers introduce new regulatory framework for AI applications in financial services.",
     impact: "neutral",
-    source: "Wall Street Journal",
+    source: "Financial Express",
     time: "12h ago",
   },
 ];

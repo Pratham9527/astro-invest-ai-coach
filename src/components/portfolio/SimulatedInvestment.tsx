@@ -10,6 +10,15 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { Calculator, RefreshCw, TrendingUp, TrendingDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+// Currency formatter for INR
+const formatCurrency = (amount: number): string => {
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    maximumFractionDigits: 2
+  }).format(amount);
+};
+
 // Simulate investment growth with random fluctuations
 const simulateInvestment = (initialAmount: number, years: number, annualReturn: number) => {
   const data = [];
@@ -45,7 +54,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label })
     return (
       <div className="bg-card p-3 border border-border/40 rounded-md shadow-sm">
         <p className="font-medium">Month {payload[0].payload.month}</p>
-        <p className="text-primary">${payload[0].value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+        <p className="text-primary">{formatCurrency(payload[0].value)}</p>
       </div>
     );
   }
@@ -53,7 +62,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label })
 };
 
 const SimulatedInvestment: React.FC = () => {
-  const [initialAmount, setInitialAmount] = useState<number>(10000);
+  const [initialAmount, setInitialAmount] = useState<number>(750000); // Changed to INR value
   const [years, setYears] = useState<number>(5);
   const [annualReturn, setAnnualReturn] = useState<number>(8);
   const [simulationData, setSimulationData] = useState<any[]>([]);
@@ -110,7 +119,7 @@ const SimulatedInvestment: React.FC = () => {
           <div className="space-y-2">
             <label className="text-sm font-medium">Initial Investment</label>
             <div className="flex items-center">
-              <span className="text-muted-foreground mr-2">$</span>
+              <span className="text-muted-foreground mr-2">₹</span>
               <Input
                 type="number"
                 value={initialAmount}
@@ -173,12 +182,12 @@ const SimulatedInvestment: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="p-4 bg-card rounded-lg border border-border/40">
                 <div className="text-sm text-muted-foreground">Initial Investment</div>
-                <div className="text-2xl font-bold">${initialAmount.toLocaleString()}</div>
+                <div className="text-2xl font-bold">{formatCurrency(initialAmount)}</div>
               </div>
               
               <div className="p-4 bg-card rounded-lg border border-border/40">
                 <div className="text-sm text-muted-foreground">Final Value</div>
-                <div className="text-2xl font-bold">${finalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                <div className="text-2xl font-bold">{formatCurrency(finalValue)}</div>
               </div>
               
               <div className="p-4 bg-card rounded-lg border border-border/40">
@@ -189,7 +198,7 @@ const SimulatedInvestment: React.FC = () => {
                   ) : (
                     <TrendingDown className="mr-1 h-5 w-5" />
                   )}
-                  ${Math.abs(totalGain).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  {formatCurrency(Math.abs(totalGain))}
                   <span className="ml-2 text-sm">
                     ({totalGain >= 0 ? '+' : ''}{percentGain.toFixed(2)}%)
                   </span>
@@ -213,7 +222,7 @@ const SimulatedInvestment: React.FC = () => {
                     }}
                   />
                   <YAxis 
-                    tickFormatter={(value) => `$${value.toLocaleString()}`}
+                    tickFormatter={(value) => formatCurrency(value).split('.')[0]}
                     width={80}
                   />
                   <Tooltip content={<CustomTooltip />} />
