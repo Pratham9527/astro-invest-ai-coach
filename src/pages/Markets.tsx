@@ -366,7 +366,7 @@ const Markets = () => {
                             <TableCell className="text-right">
                               <Badge 
                                 variant="interactive" 
-                                onClick={(e) => {
+                                onClick={(e: React.MouseEvent) => {
                                   e.stopPropagation();
                                   toast({
                                     title: "Added to Watchlist",
