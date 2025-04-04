@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Search, BookOpen, Play, Clock, Star, Award, Filter, FileText, Video, Newspaper, ArrowRight } from "lucide-react";
+import { Search, BookOpen, Play, Clock, Star, Award, Filter, FileText, Video, Newspaper, ArrowRight, Calendar } from "lucide-react";
 import { AnimatedCard } from "@/components/ui/animated-card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";

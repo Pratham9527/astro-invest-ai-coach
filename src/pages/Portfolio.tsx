@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { PieChart, Pie, Cell, ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, AreaChart, Area } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, AreaChart, Area, TooltipProps } from "recharts";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Plus, ArrowUpRight, ArrowDownRight, DollarSign, Percent, TrendingUp, TrendingDown, BarChart3 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -69,7 +69,13 @@ const Portfolio = () => {
     });
   };
   
-  const CustomTooltip = ({ active, payload, label }) => {
+  interface CustomTooltipProps {
+    active?: boolean;
+    payload?: any[];
+    label?: string;
+  }
+  
+  const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-card p-3 border border-border/40 rounded-md shadow-sm">
