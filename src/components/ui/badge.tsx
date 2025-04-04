@@ -16,6 +16,8 @@ const badgeVariants = cva(
         destructive:
           "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
         outline: "text-foreground",
+        interactive: "border-transparent bg-primary/10 text-primary hover:bg-primary/30 cursor-pointer transform transition-all hover:scale-105",
+        active: "border-transparent bg-primary text-primary-foreground transform transition-all scale-105",
       },
     },
     defaultVariants: {
@@ -26,11 +28,19 @@ const badgeVariants = cva(
 
 export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof badgeVariants> {}
+    VariantProps<typeof badgeVariants> {
+  onClick?: () => void;
+}
 
-function Badge({ className, variant, ...props }: BadgeProps) {
+function Badge({ className, variant, onClick, ...props }: BadgeProps) {
   return (
-    <div className={cn(badgeVariants({ variant }), className)} {...props} />
+    <div 
+      className={cn(badgeVariants({ variant }), 
+      onClick ? "cursor-pointer" : "", 
+      className)} 
+      onClick={onClick}
+      {...props} 
+    />
   )
 }
 
