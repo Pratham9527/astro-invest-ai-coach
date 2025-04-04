@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import AppLayout from "@/components/layout/AppLayout";
@@ -263,14 +262,17 @@ const Markets = () => {
                                         <div className="flex flex-col">
                                           <h4 className="font-semibold mb-2">Quick Actions</h4>
                                           <div className="space-y-2">
-                                            <Badge variant="interactive" className="w-full justify-center" onClick={() => {
-                                              toast({
-                                                title: "Analysis Downloaded",
-                                                description: `${stock.symbol} analysis report has been downloaded.`,
-                                              });
-                                            }}>
-                                              Download Analysis
-                                            </Badge>
+                                            <Badge 
+                              variant="interactive" 
+                              onClick={() => {
+                                toast({
+                                  title: "Analysis Downloaded",
+                                  description: `${stock.symbol} analysis report has been downloaded.`,
+                                });
+                              }}
+                            >
+                              Download Analysis
+                            </Badge>
                                             <Badge variant="interactive" className="w-full justify-center" onClick={() => {
                                               toast({
                                                 title: "Added to Watchlist",
@@ -366,7 +368,7 @@ const Markets = () => {
                             <TableCell className="text-right">
                               <Badge 
                                 variant="interactive" 
-                                onClick={(e: React.MouseEvent) => {
+                                onClick={(e) => {
                                   e.stopPropagation();
                                   toast({
                                     title: "Added to Watchlist",

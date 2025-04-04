@@ -29,7 +29,7 @@ const badgeVariants = cva(
 export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof badgeVariants> {
-  onClick?: () => void;
+  onClick?: (event?: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 function Badge({ className, variant, onClick, ...props }: BadgeProps) {
