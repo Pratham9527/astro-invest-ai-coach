@@ -43,6 +43,15 @@ import {
 import SimulatedInvestment from "@/components/portfolio/SimulatedInvestment";
 import { useToast } from "@/hooks/use-toast";
 
+// Currency formatter for INR
+const formatCurrency = (amount: number): string => {
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    maximumFractionDigits: 2
+  }).format(amount);
+};
+
 // Mock portfolio data
 const portfolioSummary = {
   totalValue: 125782.45,
@@ -154,7 +163,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label })
     return (
       <Card className="p-2 border shadow-sm bg-background">
         <p className="font-medium">{label}</p>
-        <p className="text-primary">${payload[0].value.toLocaleString()}</p>
+        <p className="text-primary">{formatCurrency(payload[0].value)}</p>
       </Card>
     );
   }
@@ -255,7 +264,7 @@ const Portfolio: React.FC = () => {
                       <div className="space-y-4">
                         <div>
                           <div className="text-sm text-muted-foreground">Total Value</div>
-                          <div className="text-3xl font-bold">${portfolioSummary.totalValue.toLocaleString()}</div>
+                          <div className="text-3xl font-bold">{formatCurrency(portfolioSummary.totalValue)}</div>
                         </div>
                         
                         <div className="grid grid-cols-2 gap-4">
@@ -267,7 +276,7 @@ const Portfolio: React.FC = () => {
                               ) : (
                                 <TrendingDown className="mr-1 h-4 w-4" />
                               )}
-                              ${Math.abs(portfolioSummary.todayChange).toLocaleString()}
+                              {formatCurrency(Math.abs(portfolioSummary.todayChange))}
                               <span className="ml-1 text-xs">
                                 ({portfolioSummary.todayChange >= 0 ? '+' : ''}{portfolioSummary.todayChangePercent}%)
                               </span>
@@ -282,7 +291,7 @@ const Portfolio: React.FC = () => {
                               ) : (
                                 <TrendingDown className="mr-1 h-4 w-4" />
                               )}
-                              ${Math.abs(portfolioSummary.totalGain).toLocaleString()}
+                              {formatCurrency(Math.abs(portfolioSummary.totalGain))}
                               <span className="ml-1 text-xs">
                                 ({portfolioSummary.totalGain >= 0 ? '+' : ''}{portfolioSummary.totalGainPercent}%)
                               </span>
@@ -374,7 +383,7 @@ const Portfolio: React.FC = () => {
                               <p className="text-sm text-muted-foreground">{holding.name}</p>
                             </div>
                             <div className="text-right">
-                              <div className="font-bold">${holding.value.toLocaleString()}</div>
+                              <div className="font-bold">{formatCurrency(holding.value)}</div>
                               <div className={holding.change >= 0 ? "text-green-500" : "text-red-500"}>
                                 {holding.change >= 0 ? "+" : ""}{holding.changePercent.toFixed(2)}%
                               </div>
@@ -411,7 +420,7 @@ const Portfolio: React.FC = () => {
                         </div>
                         <div className="flex items-center space-x-4">
                           <div className="text-right">
-                            <div className="font-bold">${holding.value.toLocaleString()}</div>
+                            <div className="font-bold">{formatCurrency(holding.value)}</div>
                             <div className={`flex items-center justify-end ${holding.change >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                               {holding.change >= 0 ? (
                                 <TrendingUp className="mr-1 h-4 w-4" />
@@ -447,11 +456,11 @@ const Portfolio: React.FC = () => {
                               </div>
                               <div>
                                 <div className="text-sm text-muted-foreground">Average Cost</div>
-                                <div className="text-lg font-medium">${holding.avgPrice.toFixed(2)}</div>
+                                <div className="text-lg font-medium">{formatCurrency(holding.avgPrice)}</div>
                               </div>
                               <div>
                                 <div className="text-sm text-muted-foreground">Current Price</div>
-                                <div className="text-lg font-medium">${holding.currentPrice.toFixed(2)}</div>
+                                <div className="text-lg font-medium">{formatCurrency(holding.currentPrice)}</div>
                               </div>
                             </div>
                             
@@ -469,8 +478,8 @@ const Portfolio: React.FC = () => {
                                       </div>
                                       <div className="flex items-center space-x-4">
                                         <div>{transaction.shares} shares</div>
-                                        <div>@ ${transaction.price.toFixed(2)}</div>
-                                        <div className="font-medium">${transaction.total.toFixed(2)}</div>
+                                        <div>@ {formatCurrency(transaction.price)}</div>
+                                        <div className="font-medium">{formatCurrency(transaction.total)}</div>
                                       </div>
                                     </div>
                                   ))}
@@ -666,3 +675,4 @@ const Portfolio: React.FC = () => {
 };
 
 export default Portfolio;
+
